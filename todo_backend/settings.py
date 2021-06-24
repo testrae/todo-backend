@@ -85,7 +85,10 @@ DATABASES = {
         'PASSWORD': 'postgres',
         'HOST': 'postgres.cx5uaxrlti2d.us-east-2.rds.amazonaws.com',
         'PORT': '5432',
-        'CONN_MAX_AGE': None
+        'CONN_MAX_AGE': None,
+        'TEST': {
+            'NAME': 'test_db',
+        }
     }
 }
 
