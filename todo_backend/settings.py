@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'todo_backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'NAME': 'postgres',
+        'NAME': 'todoapp-backend',
         'ENGINE': 'django.db.backends.postgresql',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
