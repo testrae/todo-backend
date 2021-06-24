@@ -79,16 +79,13 @@ WSGI_APPLICATION = 'todo_backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'NAME': 'postgres',
+        'NAME': 'todoapp-backend',
         'ENGINE': 'django.db.backends.postgresql',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'postgres.cx5uaxrlti2d.us-east-2.rds.amazonaws.com',
         'PORT': '5432',
-        'CONN_MAX_AGE': None,
-        'TEST': {
-            'NAME': 'test_db',
-        }
+        'CONN_MAX_AGE': None
     }
 }
 
