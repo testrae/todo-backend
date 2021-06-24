@@ -1,0 +1,57 @@
+version: 2.1
+orbs:
+  gcp-gke: circleci/gcp-gke@0.1.0
+  gcr: circleci/gcp-gcr@0.0.2
+jobs:
+  build:
+    docker:
+      - image: python:3.8
+    steps:
+      - checkout
+      - run:
+          name: Setup VirtualEnv
+          command: |
+            echo 'export TAG=0.1.${CIRCLE_BUILD_NUM}' >> $BASH_ENV
+            echo 'export IMAGE_NAME=python-circleci-docker' >> $BASH_ENV
+            pip install --no-cache-dir -r requirements.txt
+      - run:
+          name: Run Tests
+          command: |
+            python manage.py test
+  Build-Push-Image-Docker:
+    description: Build and push image to Google Container Registry
+    machine: true
+    steps:
+      - checkout
+      - gcr/gcr-auth
+      - gcr/build-image:
+          image: backend
+          tag: "v1" #Change version number e.g to 'v3' when updating application
+      - gcr/push-image:
+          image: backend
+          tag: "v1" #Change version number e.g to 'v3' when updating application
+
+  deploy:
+    description: Deploy application to Google Kubernetes Engine
+    machine: true
+    steps:
+      # Install `gcloud` and `kubectl` if not already installed.
+      - gcp-gke/install
+      # Initialize the `gcloud` CLI.
+      - gcp-gke/init
+      # Update a deployment Docker image.
+      - gcp-gke/rollout-image:
+          deployment: todo-backend
+          container: todo-backend-app
+          image: gcr.io/todo-frontend-317621/backend:v1 # change version when updating
+
+workflows:
+  build_update_deploy:
+    jobs:
+      - build
+      - Build-Push-Image-Docker:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - Build-Push-Image-Docker
