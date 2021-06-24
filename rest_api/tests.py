@@ -17,12 +17,10 @@ class ModelTests(TestCase):
 
 class Tests(APITestCase):
 
-    def test_create_model(self):
+
+    def create_model(self):
         data = {'text': 'Ev işleri yapılacak','done': False }
-        item = ToDoItem(**data)
-        item.save()
-        item = ToDoItem.objects.get(text="Ev işleri yapılacak")
-        print(item.text)
+        item = ToDoItem(**data).save()
 
     def test_create(self):
         """
@@ -38,7 +36,7 @@ class Tests(APITestCase):
         """
         Test Get Method
         """
+        self.create_model()
         response = self.client.get(reverse('rest:ToDoItem-list'), format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        print(response,response.data)
-        #self.assertEqual(response.data, [{'text': 'Ev işleri yapılacak','done': False }])
+        self.assertEqual(response.data, [{'text': 'Ev işleri yapılacak','done': False }])
