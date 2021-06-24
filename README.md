@@ -10,7 +10,11 @@ Django REST framework
 
 Postgresql
 
-#Requirements Python>=3.5 Docker
+#Requirements 
+
+Python>=3.5 
+
+Docker
 
 #Installation
 
@@ -48,13 +52,16 @@ or
 
 The project pipeline
 
-LOCAL -> Git -> CI/CD(CircleCi) -> Google VM
+LOCAL -> Git -> CI/CD(CircleCi)--> Trigger frontend build -> Google VM
 
 Any commits done to the main will be detected by circleci automated deployment
 
 if the tests passes it'll deploy the application
 
-Service uses CloudSQL as Postgresql server.
+Any successfull build trigger frontend build and tests as well before deploying
+the kubernetes. "Trigger the Build Job" is the job name on circleci config.
+
+Service uses AWS as Postgresql server.
 
 #Notes
 
@@ -67,10 +74,17 @@ The hard part was to build automation pipeline which i had no exprience of kuber
 After a lot of tutorials and docs i decided to use Google Cloud services since they
 were more explanatory.
 
+
+
 Test location: rest_api/tests
+
 Api location: rest_api/api
+
 ToDoItem model location: rest_api/models
 
+Deployment files: admin/
+
+Circleci config: .circleci/
 
 CircleCI build:
 ![img.png](img.png)
