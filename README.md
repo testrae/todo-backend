@@ -58,8 +58,6 @@ Any commits done to the main will be detected by circleci automated deployment
 
 if the tests passes it'll deploy the application
 
-Any successfull build trigger frontend build and tests as well before deploying
-the kubernetes. "Trigger the Build Job" is the job name on circleci config.
 
 Service uses AWS as Postgresql server.
 
